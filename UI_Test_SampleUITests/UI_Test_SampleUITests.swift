@@ -7,35 +7,85 @@
 
 import XCTest
 
-final class UI_Test_SampleUITests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-
-        // In UI tests it is usually best to stop immediately when a failure occurs.
+final class UI_Test_SampleUITests: XCTestCase 
+{
+    
+    override func setUpWithError() throws
+    {
         continueAfterFailure = false
-
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
     }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() throws {
-        // UI tests must launch the application that they test.
+  
+    func testExample() throws
+    {
+        //pass case
+        
         let app = XCUIApplication()
         app.launch()
-
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        
+        //username
+        let userNameField = app.textFields["Enter user name"]
+        XCTAssertTrue(userNameField.exists)
+        userNameField.tap()
+        userNameField.typeText("123")
+        
+        //password
+        let passTextField = app.textFields["Enter password"]
+        XCTAssertTrue(passTextField.exists)
+        passTextField.tap()
+        passTextField.typeText("123")
+        
+        //button tap
+        let button = app.buttons["Login"]
+        XCTAssertTrue(button.exists)
+        button.tap()
+        
+        //check fot lbl
+        let accountLbl = app.staticTexts["Welcome"]
+        XCTAssertTrue(accountLbl.exists)
+        
+        
+        //check for navigation
+        let navi = app.navigationBars["UI_Test_Sample.NextView"].buttons["Back"]
+        XCTAssertTrue(navi.exists)
+        
+        app.textFields["Enter user name"].tap()
+        app.textFields["Enter password"].tap()
+        navi.tap()
+    }
+    
+    func testFail()
+    {
+        //fail case
+        
+        let app = XCUIApplication()
+        app.launch()
+        
+        //username
+        let userNameField = app.textFields["Enter user name"]
+        XCTAssertTrue(userNameField.exists)
+        userNameField.tap()
+        userNameField.typeText("1234")
+        
+        //password
+        let passTextField = app.textFields["Enter password"]
+        XCTAssertTrue(passTextField.exists)
+        passTextField.tap()
+        passTextField.typeText("123")
+        
+        //button tap
+        let button = app.buttons["Login"]
+        XCTAssertTrue(button.exists)
+        button.tap()
+        
+        
+        //alert lbl
+        let alertLbl = app.staticTexts["Invalid login"]
+        XCTAssertTrue(alertLbl.exists)
+        
     }
 
-    func testLaunchPerformance() throws {
-        if #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 7.0, *) {
-            // This measures how long it takes to launch your application.
-            measure(metrics: [XCTApplicationLaunchMetric()]) {
-                XCUIApplication().launch()
-            }
-        }
-    }
 }
+
+
+
